@@ -1,6 +1,9 @@
 package com.sebasorozcob.www.testingapp.utils
 
-class Utils {
+import kotlinx.coroutines.*
+
+class Utils(private val dispatcher: CoroutineDispatcher?) {
+    constructor() : this(null)
 
     fun isPallindrome(input: String) : Boolean {
 
@@ -54,6 +57,32 @@ class Utils {
         }
 
         return result
+    }
+
+    suspend fun getUserName(): String {
+        delay(10000)
+        return "Juan S Orozco Buitrago"
+    }
+
+    suspend fun getUser(): String {
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+        }
+        return "User - Juan S Orozco Buitrago"
+    }
+
+    suspend fun getAddress(): String {
+        CoroutineScope(dispatcher!!).launch {
+            delay(5000)
+        }
+        return "Address"
+    }
+
+    var globalArg = false
+    fun getAddressDetail() {
+        CoroutineScope(dispatcher!!).launch {
+            globalArg = true
+        }
     }
 
 }
